@@ -78,38 +78,6 @@ const getTruckWeightBeforeLoading = async (req: Request, res: Response) => {
   }
 };
 
-const getTruckWeightAfterLoading = async (req: Request, res: Response) => {
-  try {
-    const truckId = req.params.truckId;
-    const weight = await Truck.findByPk(truckId, {
-      attributes: ["weight"],
-    });
-
-    const weightBeforeLoading = weight?.dataValues?.weight ?? null;
-    if (!weight) {
-      res.status(404);
-      res.json({ error: "truck weight not found" });
-      return;
-    }
-
-    const parcels = await Parcel.findAll({
-      where: { truckId: truckId },
-      attributes: ["weight"],
-    });
-
-    const parcelsWeight = parcels
-      .map((p) => p?.dataValues.weight)
-      .reduce((sum, weight) => sum + weight, 0);
-
-    const totalWeightAfterLoading = weightBeforeLoading + parcelsWeight;
-
-    res.status(200);
-    res.json(totalWeightAfterLoading);
-  } catch (err) {
-    res.status(500);
-    res.json({ error: "Internal Server Error" });
-  }
-};
 
 const deleteTruck = async (req: Request, res: Response) => {
   try {
@@ -143,12 +111,49 @@ const unloadTruck = async (req: Request, res: Response) => {
   }
 };
 
+
+
+
+const getCurrentParcelNumberAndTruckWeight = async (req: Request, res: Response) => {
+  try {
+    const truckId = req.params.truckId;
+    const weight = await Truck.findByPk(truckId, {
+      attributes: ["weight"],
+    });
+
+    const weightBeforeLoading = weight?.dataValues?.weight ?? null;
+    if (!weight) {
+      res.status(404);
+      res.json({ error: "truck weight not found" });
+      return;
+    }
+
+    const parcels = await Parcel.findAll({
+      where: { truckId: truckId },
+      attributes: ["weight"],
+    });
+
+    const parcelsWeight = parcels
+      .map((p) => p?.dataValues.weight)
+      .reduce((sum, weight) => sum + weight, 0);
+
+    const totalWeightAfterLoading = weightBeforeLoading + parcelsWeight;
+
+    res.status(200);
+    res.json({totalWeightAfterLoading, parcelNumber:parcels.length});
+  } catch (err) {
+    res.status(500);
+    res.json({ error: "Internal Server Error" });
+  }
+};
+
+
 export {
   unloadTruck,
-  getTruckWeightAfterLoading,
   createTruck,
   getAllTrucks,
   getOneTruck,
   getTruckWeightBeforeLoading,
   deleteTruck,
+  getCurrentParcelNumberAndTruckWeight
 };

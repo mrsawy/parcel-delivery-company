@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 import {
   getAllTrucks,
   getOneTruck,
-  getTruckWeightAfterLoading,
+  getCurrentParcelNumberAndTruckWeight,
   getTruckWeightBeforeLoading,
   deleteTruck,
   unloadTruck,
@@ -95,7 +95,7 @@ describe(`getting the trucks`, () => {
     res.json = jest.fn();
     res.status = jest.fn();
     req.params = { parcelId: 1 };
-    await getTruckWeightAfterLoading(req, res);
+    await getCurrentParcelNumberAndTruckWeight(req, res);
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledTimes(1);
   });
@@ -106,7 +106,7 @@ describe(`getting the trucks`, () => {
     res.json = jest.fn();
     res.status = jest.fn();
     req.params = { truckId: 1 };
-    await getTruckWeightAfterLoading(req, res);
+    await getCurrentParcelNumberAndTruckWeight(req, res);
     expect(res.status).toHaveBeenCalledWith(404);
     expect(res.json).toHaveBeenCalledTimes(1);
   });
