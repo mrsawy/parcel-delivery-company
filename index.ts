@@ -20,6 +20,14 @@ app.get(`/`, (req:Request, res:Response) => {
 app.use(`/parcel`, parcerRouter);
 app.use(`/truck`, truckRouter);
 
+
+
+app.all('*', (r, res) => {
+  res.status(404).json({ error: ' Sorry , Endpoint wes not found' });
+});
+
+
+
 sequelize
   .sync({ alter: true })
   .then(() => {
