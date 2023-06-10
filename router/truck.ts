@@ -14,9 +14,9 @@ router.get(`/truck-weight-and-parcel-number/:truckId`,getCurrentParcelNumberAndT
 
 router.post(`/create-truck`,createTruck)
 
-router.delete(`/delete-truck/:truckId`,deleteTruck)
-
 router.put(`/unload-truck`, unloadTruck)
+
+router.delete(`/delete-truck/:truckId`,deleteTruck)
 
 
 export default router ;

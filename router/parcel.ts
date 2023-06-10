@@ -16,10 +16,10 @@ router.get(
 
 router.post(`/create-parcel`, parcelController.createParcel);
 
-router.delete(`/delete-parcel/:parcelId`, parcelController.deleteParcel);
-
 router.put(`/unload-parcel`, parcelController.unloadParcel);
 
 router.put(`/load-parcel`, parcelController.loadParcelToTruck);
+
+router.delete(`/delete-parcel/:parcelId`, parcelController.deleteParcel);
 
 export default router;
