@@ -148,19 +148,22 @@ const loadParcelToTruck = async (req: Request, res: Response) => {
 const unloadParcel = async (req: Request, res: Response) => {
   try {
     const { parcelId } = req.body;
-    if(!parcelId){
-      res.status(404);res.json({ massage: `must specify the parcel ID` });
-      return 
+    if (!parcelId) {
+      res.status(404);
+      res.json({ massage: `must specify the parcel ID` });
+      return;
     }
     const parcelTobeUnLoaded = await Parcel.update(
       { truckId: null },
       { where: { id: parcelId } }
     );
     if (parcelTobeUnLoaded[0]) {
-      res.status(200);res.json({ massage: `unloaded succsesfully` });
-      return 
+      res.status(200);
+      res.json({ massage: `unloaded succsesfully` });
+      return;
     } else {
-      res.status(404);res.json({ error: "no parcels where unloaded (wrong ID)" });
+      res.status(404);
+      res.json({ error: "no parcels where unloaded (wrong ID)" });
     }
   } catch (err) {
     res.status(500).json({ error: "Internal Server Error" });
